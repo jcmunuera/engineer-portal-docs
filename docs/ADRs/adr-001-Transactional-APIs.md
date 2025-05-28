@@ -90,7 +90,7 @@ The BFF/Experience API layer will focus on handling user interface requirements,
 
 ### Diagram
 
-![API Layer picture](./pictures/adr-001-Api-Layer-dark.png)
+![API Layer picture](./pictures/adr-001-Api-Layer-light.png)
   
 ## Consequences
 
