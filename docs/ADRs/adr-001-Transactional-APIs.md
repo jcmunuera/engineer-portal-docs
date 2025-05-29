@@ -1,7 +1,9 @@
 ---
+id: adr-001-Transactional-APIs
 title: "ADR-001: Transactional Support in API-led Connectivity"
-date: "2025-05-27"
-status: "proposed"
+sidebar_label: "ADR-001: Transactional APIs"
+date: 2025-05-27
+status: proposed
 author: "Fusion Architecture Team"
 tags:
   - Fusion
