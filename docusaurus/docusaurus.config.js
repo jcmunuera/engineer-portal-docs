@@ -10,8 +10,8 @@ import {themes as prismThemes} from 'prism-react-renderer';
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'My Site',
-  tagline: 'Dinosaurs are cool',
+  title: 'Knowledge Base for Engineers',
+  tagline: 'Engineering Portal Documentation',
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
@@ -22,10 +22,10 @@ const config = {
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'facebook', // Usually your GitHub org/user name.
-  projectName: 'docusaurus', // Usually your repo name.
+  organizationName: 'github.com/jcmunuera', // Usually your GitHub org/user name.
+  projectName: 'engineer-portal-docs', // Usually your repo name.
 
-  onBrokenLinks: 'throw',
+  onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'warn',
 
   // Even if you don't use internationalization, you can use this field to set
@@ -35,6 +35,18 @@ const config = {
     defaultLocale: 'en',
     locales: ['en'],
   },
+
+  // Add Mermaid theme to the themes array
+  themes: ['@docusaurus/theme-mermaid'],
+
+  // Enable Mermaid parsing in Markdown
+  markdown: {
+    mermaid: true,
+  },
+
+  plugins: [
+    require.resolve('./src/plugins/first-doc-path.js'),
+  ],
 
   presets: [
     [
@@ -75,29 +87,29 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
+      
       // Replace with your project's social card
-      image: 'img/docusaurus-social-card.jpg',
+      //image: 'img/docusaurus-social-card.jpg',
       navbar: {
-        title: 'My Site',
+        // title: 'My Site',
+        hideOnScroll: false,
         logo: {
-          alt: 'My Site Logo',
-          src: 'img/logo.svg',
+          alt: 'Knowledge Area Portal Logo',
+          src: 'img/librox32-light.png', // Ruta al logo personalizado
+          srcDark: 'img/librox32-dark.png',
+          href: '/', // Redirige el logo a la documentación
+          target: '_self',
         },
         items: [
           {
             type: 'docSidebar',
             sidebarId: 'docSidebar',
             position: 'left',
-            label: 'Documentation',
-          },
-          {to: '/blog', label: 'Blog', position: 'left'},
-          {
-            href: 'https://github.com/facebook/docusaurus',
-            label: 'GitHub',
-            position: 'right',
+            label: 'Knowledge Area',
           },
         ],
       },
+
       footer: {
         style: 'dark',
         links: [
@@ -105,8 +117,8 @@ const config = {
             title: 'Docs',
             items: [
               {
-                label: 'Tutorial',
-                to: '/docs/intro',
+                label: 'Fusion Engineering Portal',
+                to: '/docs/FusionEngineeringPortal',
               },
             ],
           },
@@ -114,16 +126,12 @@ const config = {
             title: 'Community',
             items: [
               {
-                label: 'Stack Overflow',
-                href: 'https://stackoverflow.com/questions/tagged/docusaurus',
+                label: 'MS Teams',
+                href: 'https://teams.microsoft.com/l/channel/19%3a4f0b1c5d6e2b4c8f9e7d8c9b0a1b2c3d%40thread.tacv2/Engineering%2520Portal',
               },
               {
-                label: 'Discord',
-                href: 'https://discordapp.com/invite/docusaurus',
-              },
-              {
-                label: 'X',
-                href: 'https://x.com/docusaurus',
+                label: 'email',
+                href: 'mailto:support@example.com',
               },
             ],
           },
@@ -131,17 +139,17 @@ const config = {
             title: 'More',
             items: [
               {
-                label: 'Blog',
-                to: '/blog',
+                label: 'News',
+                to: 'https://example.com/news',
               },
               {
                 label: 'GitHub',
-                href: 'https://github.com/facebook/docusaurus',
+                href: 'https://github.com/jcmunuera/engineer-portal-docs',
               },
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+        copyright: `Fusion Engineering Portal - ${new Date().getFullYear()} Knowledge Area. Built with Docusaurus.`,
       },
       prism: {
         theme: prismThemes.github,
