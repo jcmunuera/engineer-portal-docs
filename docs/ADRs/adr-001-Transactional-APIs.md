@@ -138,4 +138,4 @@ Given the asynchronous and loosely coupled nature of our architecture, 2PC was d
 ## References
 
 - [SAGA Pattern](https://microservices.io/patterns/data/saga.html)
-- [ERI - Transactional Management Implementation](TBD)
+- [ERI - Transactional Management Implementation](ERIs/eri-0011-Transactional-Management)
