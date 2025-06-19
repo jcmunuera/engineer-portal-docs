@@ -1,4 +1,3 @@
----
 name: Build and Deploy Docusaurus
 
 on:
@@ -29,6 +28,9 @@ jobs:
           cache: 'npm'
           cache-dependency-path: docusaurus/package-lock.json
 
+      - name: Verify repository contents
+        run: ls -lR ./docusaurus
+
       - name: Install dependencies
         run: npm ci
 
@@ -43,14 +45,14 @@ jobs:
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./build
+          publish_dir: ./docusaurus/build
           force_orphan: true
           keep_files: false
 
       - name: Debug deploy
         run: |
-        echo "Checking gh-pages branch"
-        git fetch origin
-        git ls-remote --heads origin gh-pages
-        echo "Listing published files"
-        ls -lR ./docusaurus/build
+          echo "Checking gh-pages branch"
+          git fetch origin
+          git ls-remote --heads origin gh-pages
+          echo "Listing published files"
+          ls -lR ./build
