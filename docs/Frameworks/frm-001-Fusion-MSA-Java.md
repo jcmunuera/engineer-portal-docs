@@ -1,7 +1,7 @@
 ---
 id: frm-001-Fusion-MSA-Java
 title: "FRM-001: Fusion Microsevices Java"
-sidebar_label: "ADR-000: First Item"
+sidebar_label: "FRM-001: Fusion Microservices Java"
 date: 2025-05-27
 status: proposed
 author: "Fusion Architecture Team"
