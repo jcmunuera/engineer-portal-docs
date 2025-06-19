@@ -33,7 +33,10 @@ jobs:
         run: npm ci
 
       - name: Build Docusaurus site
-        run: npm run build
+        run: npm run build || { echo "Build failed"; exit 1; }
+
+      - name: Verify build directory
+        run: ls -lR ./build
 
       - name: Deploy to GitHub Pages
         if: github.ref == 'refs/heads/main'
@@ -41,3 +44,12 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./build
+          force_orphan: true
+          keep_files: false
+
+      - name: Debug deploy
+        echo "Checking gh-pages branch"
+        git fetch origin
+        git ls-remote --heads origin gh-pages
+        echo "Listing published files"
+        ls -lR ./docusaurus/build
