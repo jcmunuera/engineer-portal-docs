@@ -48,6 +48,7 @@ jobs:
           keep_files: false
 
       - name: Debug deploy
+        run: |
         echo "Checking gh-pages branch"
         git fetch origin
         git ls-remote --heads origin gh-pages
