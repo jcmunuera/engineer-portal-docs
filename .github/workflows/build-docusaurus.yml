@@ -29,7 +29,7 @@ jobs:
           cache-dependency-path: docusaurus/package-lock.json
 
       - name: Verify repository contents
-        run: ls -lR ./docusaurus
+        run: ls -lR .
 
       - name: Install dependencies
         run: npm ci
