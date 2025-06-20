@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en" dir="ltr" class="docs-wrapper plugin-docs plugin-id-default docs-version-current docs-doc-page docs-doc-id-ADRs/adr-001-Transactional-APIs" data-has-hydrated="false">
+<head>
+<meta charset="UTF-8">
+<meta name="generator" content="Docusaurus v3.8.1">
+<title data-rh="true">ADR-001: Transactional Support in API-led Connectivity | Knowledge Base for Engineers</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:url" content="https://jcmunuera.github.io/engineer-portal-docs/docs/ADRs/adr-001-Transactional-APIs"><meta data-rh="true" property="og:locale" content="en"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="ADR-001: Transactional Support in API-led Connectivity | Knowledge Base for Engineers"><meta data-rh="true" name="description" content="Purpose"><meta data-rh="true" property="og:description" content="Purpose"><link data-rh="true" rel="icon" href="/engineer-portal-docs/img/favicon.ico"><link data-rh="true" rel="canonical" href="https://jcmunuera.github.io/engineer-portal-docs/docs/ADRs/adr-001-Transactional-APIs"><link data-rh="true" rel="alternate" href="https://jcmunuera.github.io/engineer-portal-docs/docs/ADRs/adr-001-Transactional-APIs" hreflang="en"><link data-rh="true" rel="alternate" href="https://jcmunuera.github.io/engineer-portal-docs/docs/ADRs/adr-001-Transactional-APIs" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ADR-001: Transactional APIs","item":"https://jcmunuera.github.io/engineer-portal-docs/docs/ADRs/adr-001-Transactional-APIs"}]}</script><link rel="alternate" type="application/rss+xml" href="/engineer-portal-docs/blog/rss.xml" title="Knowledge Base for Engineers RSS Feed">
+<link rel="alternate" type="application/atom+xml" href="/engineer-portal-docs/blog/atom.xml" title="Knowledge Base for Engineers Atom Feed"><link rel="stylesheet" href="/engineer-portal-docs/assets/css/styles.9abf9641.css">
+<script src="/engineer-portal-docs/assets/js/runtime~main.3d89ba3c.js" defer="defer"></script>
+<script src="/engineer-portal-docs/assets/js/main.39f6bf6b.js" defer="defer"></script>
+</head>
+<body class="navigation-with-keyboard">
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;"><defs>
+<symbol id="theme-svg-external-link" viewBox="0 0 24 24"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"/></symbol>
+</defs></svg>
+<script>!function(){var t="light";var e=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return window.localStorage.getItem("theme")}catch(t){}}();document.documentElement.setAttribute("data-theme",e||t),document.documentElement.setAttribute("data-theme-choice",e||t)}(),function(){try{const c=new URLSearchParams(window.location.search).entries();for(var[t,e]of c)if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()</script><div id="__docusaurus"><link rel="preload" as="image" href="/engineer-portal-docs/img/librox32-light.png"><link rel="preload" as="image" href="/engineer-portal-docs/img/librox32-dark.png"><div role="region" aria-label="Skip to main content"><a class="skipToContent_fXgn" href="#__docusaurus_skipToContent_fallback">Skip to main content</a></div><nav aria-label="Main" class="theme-layout-navbar navbar navbar--fixed-top"><div class="navbar__inner"><div class="theme-layout-navbar-left navbar__items"><button aria-label="Toggle navigation bar" aria-expanded="false" class="navbar__toggle clean-btn" type="button"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg></button><a class="navbar__brand" target="_self" href="/engineer-portal-docs/"><div class="navbar__logo"><img src="/engineer-portal-docs/img/librox32-light.png" alt="Knowledge Area Portal Logo" class="themedComponent_mlkZ themedComponent--light_NVdE"><img src="/engineer-portal-docs/img/librox32-dark.png" alt="Knowledge Area Portal Logo" class="themedComponent_mlkZ themedComponent--dark_xIcU"></div></a><a aria-current="page" class="navbar__item navbar__link navbar__link--active" href="/engineer-portal-docs/docs/ADRs/adr-000-First-Item">Knowledge Area</a></div><div class="theme-layout-navbar-right navbar__items navbar__items--right"><div class="toggle_vylO colorModeToggle_DEke"><button class="clean-btn toggleButton_gllP toggleButtonDisabled_aARS" type="button" disabled="" title="system mode" aria-label="Switch between dark and light mode (currently system mode)"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP lightToggleIcon_pyhR"><path fill="currentColor" d="M12,9c1.65,0,3,1.35,3,3s-1.35,3-3,3s-3-1.35-3-3S10.35,9,12,9 M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5 S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1 s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0 c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95 c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41 L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41 s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06 c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP darkToggleIcon_wfgR"><path fill="currentColor" d="M9.37,5.51C9.19,6.15,9.1,6.82,9.1,7.5c0,4.08,3.32,7.4,7.4,7.4c0.68,0,1.35-0.09,1.99-0.27C17.45,17.19,14.93,19,12,19 c-3.86,0-7-3.14-7-7C5,9.07,6.81,6.55,9.37,5.51z M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36 c-0.98,1.37-2.58,2.26-4.4,2.26c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP systemToggleIcon_QzmC"><path fill="currentColor" d="m12 21c4.971 0 9-4.029 9-9s-4.029-9-9-9-9 4.029-9 9 4.029 9 9 9zm4.95-13.95c1.313 1.313 2.05 3.093 2.05 4.95s-0.738 3.637-2.05 4.95c-1.313 1.313-3.093 2.05-4.95 2.05v-14c1.857 0 3.637 0.737 4.95 2.05z"></path></svg></button></div><div class="navbarSearchContainer_Bca1"></div></div></div><div role="presentation" class="navbar-sidebar__backdrop"></div></nav><div id="__docusaurus_skipToContent_fallback" class="theme-layout-main main-wrapper mainWrapper_z2l0"><div class="docsWrapper_hBAB"><button aria-label="Scroll back to top" class="clean-btn theme-back-to-top-button backToTopButton_sjWU" type="button"></button><div class="docRoot_UBD9"><aside class="theme-doc-sidebar-container docSidebarContainer_YfHR"><div class="sidebarViewport_aRkj"><div class="sidebar_njMd"><nav aria-label="Docs sidebar" class="menu thin-scrollbar menu_SIkG"><ul class="theme-doc-sidebar-menu menu__list"><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret menu__link--active" role="button" aria-expanded="true" href="/engineer-portal-docs/docs/ADRs/adr-000-First-Item">Architecture Decision Records</a></div><ul class="menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/engineer-portal-docs/docs/ADRs/adr-000-First-Item">ADR-000: First Item</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link menu__link--active" aria-current="page" tabindex="0" href="/engineer-portal-docs/docs/ADRs/adr-001-Transactional-APIs">ADR-001: Transactional APIs</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/engineer-portal-docs/docs/ADRs/adr-002-Distributed-Electronic-Journal">ADR-002: Distributed Electronic Journal</a></li></ul></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/engineer-portal-docs/docs/ERIs/eri-001-Transactional-Management">Executable Reference Impl.</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/engineer-portal-docs/docs/Patterns/ptr-001-Saga">Design Patterns</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/engineer-portal-docs/docs/Frameworks/frm-001-Fusion-MSA-Java">Frameworks</a></div></li></ul></nav></div></div></aside><main class="docMainContainer_TBSr"><div class="container padding-top--md padding-bottom--lg"><div class="row"><div class="col docItemCol_VOVn"><div class="docItemContainer_Djhp"><article><nav class="theme-doc-breadcrumbs breadcrumbsContainer_Z_bl" aria-label="Breadcrumbs"><ul class="breadcrumbs"><li class="breadcrumbs__item"><a aria-label="Home page" class="breadcrumbs__link" href="/engineer-portal-docs/"><svg viewBox="0 0 24 24" class="breadcrumbHomeIcon_YNFT"><path d="M10 19v-5h4v5c0 .55.45 1 1 1h3c.55 0 1-.45 1-1v-7h1.7c.46 0 .68-.57.33-.87L12.67 3.6c-.38-.34-.96-.34-1.34 0l-8.36 7.53c-.34.3-.13.87.33.87H5v7c0 .55.45 1 1 1h3c.55 0 1-.45 1-1z" fill="currentColor"></path></svg></a></li><li class="breadcrumbs__item"><span class="breadcrumbs__link">Architecture Decision Records</span></li><li class="breadcrumbs__item breadcrumbs__item--active"><span class="breadcrumbs__link">ADR-001: Transactional APIs</span></li></ul></nav><div class="tocCollapsible_ETCw theme-doc-toc-mobile tocMobile_ITEo"><button type="button" class="clean-btn tocCollapsibleButton_TO0P">On this page</button></div><div class="theme-doc-markdown markdown"><header><h1>ADR-001: Transactional Support in API-led Connectivity</h1></header><h2 class="anchor anchorWithStickyNavbar_LWe7" id="purpose">Purpose<a href="#purpose" class="hash-link" aria-label="Direct link to Purpose" title="Direct link to Purpose">​</a></h2>
+<p>The purpose of this ADR is to document the architectural decision to implement transactional support in API connected applications within our distributed microservices architecture. This decision aims to:</p>
+<ul>
+<li>Enable reliable, orchestrated management of complex business workflows that span multiple business domains.</li>
+<li>Maintain clear separation of concerns between orchestration, business logic, and system integrations.</li>
+<li>Promote reusability, consistency, and decentralization of system integration contracts, particularly in a distributed, multi-location context.</li>
+<li>Ensure flexible, resilient, and maintainable transaction management strategies aligned with our organizational needs.</li>
+</ul>
+<p>This ADR provides the rationale, scope, and guidance for implementing the outlined architecture, facilitating a consistent approach for development teams and stakeholders involved in designing, building, and maintaining our API ecosystem.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="context">Context<a href="#context" class="hash-link" aria-label="Direct link to Context" title="Direct link to Context">​</a></h2>
+<p>In our FUSION microservices-based application architecture, we have established a multi-layer API structure to enhance ourapplication&#x27;s integration capabilities and to facilitate better separation of concerns. The architecture comprises four primary API layers:</p>
+<ul>
+<li><strong>BFF/Experience API</strong>: Serves as the interface between the user interface (UI) and the backend services. It handles UI-specific transformations and optimisations to deliver tailored user experience, while making calls to the composable APIs.</li>
+<li><strong>Composable API</strong>: Acts as an orchestrator, managing the integration and coordination of multiple Domain APIs. It facilitates complex workflows, enabling the development of new features that require interactions across various business doamins.</li>
+<li><strong>Domain API</strong>: Represents atomic business capabilities corresponding to distinct business domains across the organisation. Each Domain API is designed to perform specific operations and is responsible for its ow data management and business logic.</li>
+<li><strong>System API</strong>: Encapsulates connections to specific System of Records (SoR) and third-party applications/APIs.</li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="decision">Decision<a href="#decision" class="hash-link" aria-label="Direct link to Decision" title="Direct link to Decision">​</a></h2>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="providing-transactional-support-in-composable-api-layer">Providing Transactional Support in Composable API Layer<a href="#providing-transactional-support-in-composable-api-layer" class="hash-link" aria-label="Direct link to Providing Transactional Support in Composable API Layer" title="Direct link to Providing Transactional Support in Composable API Layer">​</a></h3>
+<p>We have decided to implement Transactional Support primarily at the Composable API level for the following reasons:</p>
+<ul>
+<li><strong>Orchestration of Multiple Domain Operations</strong>: The Composable API layer is responsible for orchestrating calls to multiple Domain APIs. By managing transactionality at this layer, we can ensure all steps within a business workflow are executed seamlessly. In cases where one or more Domain API calls fail, the Composable API can invoke compensation logic, providing a coherent method to maintain data integrity.</li>
+<li><strong>Separation of Concerns</strong>: Keeping the transaction management centralised within the Composable API ensures the Domain APIs remain focused on their core responsibilities -- implementing bsuiness logic gor individual domains -- while offloading the orchestration concerns to the Composble layer. This separation minimises the coupling between services.</li>
+<li><strong>Flexibility in Transaction Management</strong>: By utilising the SAGA pattern within the Compsable API, we can flexibly choose betweeen orchestration or choreography based on the specific business process requirements. This flexibility allows us to adapt to changing needs without impacting the overall architecture.</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="role-of-system-api-layer">Role of System API Layer<a href="#role-of-system-api-layer" class="hash-link" aria-label="Direct link to Role of System API Layer" title="Direct link to Role of System API Layer">​</a></h3>
+<p>The introduction of System APIs will provide several advantages to our architecture:</p>
+<ul>
+<li><strong>Standardization Across Locations</strong>: System APIs will standardize interactions with SoR and third-party APIs, ensuring that all Domain APIs adhere to the same specifications or contracts regardless of the local system variations. This is particularly beneficial for a multinational organization.</li>
+<li><strong>Decoupling and Flexibility</strong>: System APIs decouple the business logic in Domain APIs from specific technical implementations of SoR and third-party integrations. This allows for greater flexibility to update back-end systems without affecting higher-level business logic.</li>
+<li><strong>Improved Maintenance and Scalability</strong>: Centralizing management of integrations via System APIs simplifies monitoring, logging, and error handling across diverse SoR interactions. This enables smoother scalability when entering new markets that require additional integrations.</li>
+<li><strong>Consistent Error Handling and Security</strong>: Standardising error handling and security mechanisms across System APIs ensures a cohesive integration experience while safeguarding sensitive data and managing access uniformly.</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="ui-specific-role-of-bffexperience-api-layer">UI-Specific Role of BFF/Experience API Layer<a href="#ui-specific-role-of-bffexperience-api-layer" class="hash-link" aria-label="Direct link to UI-Specific Role of BFF/Experience API Layer" title="Direct link to UI-Specific Role of BFF/Experience API Layer">​</a></h3>
+<p>The BFF/Experience API layer will focus on handling user interface requirements, ensuring:</p>
+<ul>
+<li><strong>User-Centric Data Handling</strong>: This layer will interact with the Composable APIs to fetch and transform data specific to various channels and UI designs, enhancing user experience while abstracting complex transaction management.</li>
+<li><strong>Independence from Business Logic</strong>: By limiting the BFF layer’s role to UX/UI data transformation and optimization, we maintain a clear divide between user experience and business logic, fostering a clean architecture that can adapt easily to future changes.</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="technical-details">Technical Details<a href="#technical-details" class="hash-link" aria-label="Direct link to Technical Details" title="Direct link to Technical Details">​</a></h3>
+<ul>
+<li><strong>Pattern for Transaction Management</strong>
+<ul>
+<li>Utilize the SAGA pattern for orchestrating distributed transactions at the Composable API layer.</li>
+<li>Decide between choreography or orchestration based on business process complexity, with orchestration preferred for more control.</li>
+</ul>
+</li>
+<li><strong>Compensation Endpoints in Domain APIs</strong>
+<ul>
+<li>Define standard conventions for compensation endpoints (e.g., <code>POST /&lt;entity&gt;/compensate</code>) within Domain APIs.</li>
+<li>Ensure idempotency and consistency of compensation operations to prevent side effects during retries or failure scenarios.</li>
+</ul>
+</li>
+<li><strong>API Contracts and Standards</strong>-<!-- -->
+<ul>
+<li>Adopt OpenAPI or similar specifications for defining System, Domain, and Composable API contracts.</li>
+<li>Version API contracts to manage evolution without breaking consumers.</li>
+</ul>
+</li>
+<li><strong>Error Handling &amp; Retry Strategies</strong>
+<ul>
+<li>Implement robust error handling at each API level, including retries with exponential backoff, circuit breakers, and fallback mechanisms.</li>
+<li>Propagate meaningful error responses to facilitate debugging and remediation.</li>
+</ul>
+</li>
+<li><strong>Event-Driven Communication</strong>
+<ul>
+<li>Consider leveraging async messaging or event sourcing within the SAGA orchestration to decouple steps and handle eventual consistency.</li>
+<li>Use message brokers (e.g., Kafka, PubSub) for reliable event delivery and state management.</li>
+</ul>
+</li>
+<li><strong>Security &amp; Authentication</strong>
+<ul>
+<li>Standardize security mechanisms across System APIs, using OAuth2, mutual TLS, or API keys.</li>
+<li>Manage and rotate credentials centrally, especially for third-party or external integrations.</li>
+</ul>
+</li>
+<li><strong>Observability &amp; Monitoring</strong>
+<ul>
+<li>Instrument all API calls with distributed tracing (e.g., Splunk, OpenTelemetry) for end-to-end observability.</li>
+<li>Log transaction steps, failures, and compensations for auditability and troubleshooting.</li>
+</ul>
+</li>
+<li><strong>Data Consistency &amp; Idempotency</strong>
+<ul>
+<li>Use idempotent operations for compensation and critical API actions to prevent duplicate effects.</li>
+<li>Define explicit data consistency models (e.g., eventual consistency) suitable for the transactional scope.</li>
+</ul>
+</li>
+<li><strong>Deployment &amp; Scalability</strong>
+<ul>
+<li>Deploy System and API gateways using container orchestration platforms (e.g., Kubernetes).</li>
+<li>Ensure horizontal scalability, especially for the Composable layer handling complex workflows.</li>
+</ul>
+</li>
+<li><strong>Documentation &amp; Developer Guidance</strong>
+<ul>
+<li>Maintain comprehensive API documentation, including transaction flows, compensation logic, error handling, and versioning policies.</li>
+<li>Provide reference implementations (ERIs) for key transaction patterns to promote consistency.</li>
+</ul>
+</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="diagram">Diagram<a href="#diagram" class="hash-link" aria-label="Direct link to Diagram" title="Direct link to Diagram">​</a></h3>
+<p><img decoding="async" loading="lazy" alt="API Layer picture" src="/engineer-portal-docs/assets/images/adr-001-Api-Layer-light-d1559bba47a69753ab82e8d11a49c9c8.png" width="535" height="558" class="img_ev3q"></p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="consequences">Consequences<a href="#consequences" class="hash-link" aria-label="Direct link to Consequences" title="Direct link to Consequences">​</a></h2>
+<ul>
+<li>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="positive">Positive<a href="#positive" class="hash-link" aria-label="Direct link to Positive" title="Direct link to Positive">​</a></h3>
+<ul>
+<li><strong>Robust Transaction Management</strong>: Centralizing transactional support at the Composable API level enables orchestrated workflows that maintain data consistency across multiple domains, reducing manual coordination efforts.</li>
+<li><strong>Enhanced Flexibility and Scalability</strong>: Utilizing the SAGA pattern allows the system to adapt transaction flows dynamically, supporting both orchestrated and choreographed approaches as needed.</li>
+<li><strong>Reusability and Standardization</strong>: The introduction of System APIs promotes contract reuse across multiple locations, improving consistency and simplifying integration management across the organization.</li>
+<li><strong>Separation of Concerns</strong>: Delegating compensation logic to Domain APIs helps keep business logic encapsulated, simplifying maintenance and evolution of services.</li>
+</ul>
+</li>
+<li>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="negative">Negative<a href="#negative" class="hash-link" aria-label="Direct link to Negative" title="Direct link to Negative">​</a></h3>
+<ul>
+<li><strong>Increased Complexity</strong>: Implementing distributed transaction management and compensation logic adds complexity to both development and operational processes, requiring careful design, testing, and monitoring.</li>
+<li><strong>Latency and Performance Overhead</strong>: Orchestrated workflows, especially involving multiple API calls and compensation steps, can introduce increased latency and resource consumption, impacting user experience.</li>
+<li><strong>Error Propagation and Partial Failures</strong>: Handling failures gracefully across multiple systems requires robust error handling and monitoring to prevent inconsistencies or incomplete transactions.</li>
+<li><strong>Potential for Inconsistent State</strong>: Despite compensation efforts, some failure scenarios may leave the system in an inconsistent state if compensating actions are not correctly implemented or invoked.</li>
+</ul>
+</li>
+<li>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="mitigations">Mitigations<a href="#mitigations" class="hash-link" aria-label="Direct link to Mitigations" title="Direct link to Mitigations">​</a></h3>
+<ul>
+<li><strong>Design for Idempotency and Consistency</strong>: Enforce idempotent operations for compensation endpoints and transactional steps to prevent side effects from retries or duplicate messages.</li>
+<li><strong>Implement Robust Monitoring and Alerts</strong>: Leverage distributed tracing, logging, and alerting tools to detect and respond swiftl  y to failures, enabling prompt recovery and troubleshooting.</li>
+<li><strong>Optimize for Performance</strong>: Use asynchronous messaging and event sourcing where appropriate to reduce latency impacts and decouple transaction steps, improving overall system responsiveness.</li>
+<li><strong>Gradual Adoption and Testing</strong>: Start with critical or high-value workflows, rigorously test transaction paths, and incrementally extend support to other areas to manage complexity and risk.</li>
+<li><strong>Clear Documentation</strong>: Provide comprehensive documentation on transaction flows, compensation mechanisms, error handling, and recovery procedures to ensure alignment and clarity across teams.</li>
+</ul>
+</li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="alternatives-considered">Alternatives Considered<a href="#alternatives-considered" class="hash-link" aria-label="Direct link to Alternatives Considered" title="Direct link to Alternatives Considered">​</a></h2>
+<ul>
+<li>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="no-distributed-transaction-support-eventual-consistency-only">No Distributed Transaction Support (Eventual Consistency Only)<a href="#no-distributed-transaction-support-eventual-consistency-only" class="hash-link" aria-label="Direct link to No Distributed Transaction Support (Eventual Consistency Only)" title="Direct link to No Distributed Transaction Support (Eventual Consistency Only)">​</a></h3>
+<ul>
+<li><strong>Description</strong>: Rely solely on eventual consistency mechanisms, with each Domain API operating independently without coordinated transaction management.</li>
+<li><strong>Rationale for Discarding</strong>:<!-- -->
+<ul>
+<li>This approach simplifies implementation but sacrifices data consistency guarantees necessary for certain critical business workflows.
+In scenarios involving multiple updates across domains, it can lead to data anomalies, making it unsuitable for workflows requiring transactional integrity.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="two-phase-commit-2pc-at-the-api-level">Two-Phase Commit (2PC) at the API Level<a href="#two-phase-commit-2pc-at-the-api-level" class="hash-link" aria-label="Direct link to Two-Phase Commit (2PC) at the API Level" title="Direct link to Two-Phase Commit (2PC) at the API Level">​</a></h3>
+<ul>
+<li><strong>Description</strong>: Implement a distributed transaction protocol such as 2PC across services using a two-phase commit mechanism.</li>
+<li><strong>Rationale for Discarding</strong>:<!-- -->
+<ul>
+<li>2PC introduces significant complexity, coordination overhead, and potential blocking issues in a distributed microservices environment.
+It reduces system availability and scalability—issues that are contrary to microservices principles and organizational scalability goals.
+Given the asynchronous and loosely coupled nature of our architecture, 2PC was deemed too rigid and impractical.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="references">References<a href="#references" class="hash-link" aria-label="Direct link to References" title="Direct link to References">​</a></h2>
+<ul>
+<li><a href="https://microservices.io/patterns/data/saga.html" target="_blank" rel="noopener noreferrer">SAGA Pattern</a></li>
+<li><a href="/engineer-portal-docs/docs/ADRs/ERIs/eri-0011-Transactional-Management">ERI - Transactional Management Implementation</a></li>
+</ul></div><footer class="theme-doc-footer docusaurus-mt-lg"><div class="row margin-top--sm theme-doc-footer-tags-row"><div class="col"><b>Tags:</b><ul class="tags_jXut padding--none margin-left--sm"><li class="tag_QGVx"><a rel="tag" class="tag_zVej tagRegular_sFm0" href="/engineer-portal-docs/docs/tags/fusion">Fusion</a></li><li class="tag_QGVx"><a rel="tag" class="tag_zVej tagRegular_sFm0" href="/engineer-portal-docs/docs/tags/transaction">Transaction</a></li><li class="tag_QGVx"><a rel="tag" class="tag_zVej tagRegular_sFm0" href="/engineer-portal-docs/docs/tags/api">API</a></li></ul></div></div><div class="row margin-top--sm theme-doc-footer-edit-meta-row"><div class="col"><a href="https://github.com/jcmunuera/engineer-portal-docs/edit/main/../docs/ADRs/adr-001-Transactional-APIs.md" target="_blank" rel="noopener noreferrer" class="theme-edit-this-page"><svg fill="currentColor" height="20" width="20" viewBox="0 0 40 40" class="iconEdit_Z9Sw" aria-hidden="true"><g><path d="m34.5 11.7l-3 3.1-6.3-6.3 3.1-3q0.5-0.5 1.2-0.5t1.1 0.5l3.9 3.9q0.5 0.4 0.5 1.1t-0.5 1.2z m-29.5 17.1l18.4-18.5 6.3 6.3-18.4 18.4h-6.3v-6.2z"></path></g></svg>Edit this page</a></div><div class="col lastUpdated_JAkA"></div></div></footer></article><nav class="docusaurus-mt-lg pagination-nav" aria-label="Docs pages"><a class="pagination-nav__link pagination-nav__link--prev" href="/engineer-portal-docs/docs/ADRs/adr-000-First-Item"><div class="pagination-nav__sublabel">Previous</div><div class="pagination-nav__label">ADR-000: First Item</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/engineer-portal-docs/docs/ADRs/adr-002-Distributed-Electronic-Journal"><div class="pagination-nav__sublabel">Next</div><div class="pagination-nav__label">ADR-002: Distributed Electronic Journal</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#purpose" class="table-of-contents__link toc-highlight">Purpose</a></li><li><a href="#context" class="table-of-contents__link toc-highlight">Context</a></li><li><a href="#decision" class="table-of-contents__link toc-highlight">Decision</a><ul><li><a href="#providing-transactional-support-in-composable-api-layer" class="table-of-contents__link toc-highlight">Providing Transactional Support in Composable API Layer</a></li><li><a href="#role-of-system-api-layer" class="table-of-contents__link toc-highlight">Role of System API Layer</a></li><li><a href="#ui-specific-role-of-bffexperience-api-layer" class="table-of-contents__link toc-highlight">UI-Specific Role of BFF/Experience API Layer</a></li><li><a href="#technical-details" class="table-of-contents__link toc-highlight">Technical Details</a></li><li><a href="#diagram" class="table-of-contents__link toc-highlight">Diagram</a></li></ul></li><li><a href="#consequences" class="table-of-contents__link toc-highlight">Consequences</a><ul><li><a href="#positive" class="table-of-contents__link toc-highlight">Positive</a></li><li><a href="#negative" class="table-of-contents__link toc-highlight">Negative</a></li><li><a href="#mitigations" class="table-of-contents__link toc-highlight">Mitigations</a></li></ul></li><li><a href="#alternatives-considered" class="table-of-contents__link toc-highlight">Alternatives Considered</a><ul><li><a href="#no-distributed-transaction-support-eventual-consistency-only" class="table-of-contents__link toc-highlight">No Distributed Transaction Support (Eventual Consistency Only)</a></li><li><a href="#two-phase-commit-2pc-at-the-api-level" class="table-of-contents__link toc-highlight">Two-Phase Commit (2PC) at the API Level</a></li></ul></li><li><a href="#references" class="table-of-contents__link toc-highlight">References</a></li></ul></div></div></div></div></main></div></div></div><footer class="theme-layout-footer footer footer--dark"><div class="container container-fluid"><div class="row footer__links"><div class="theme-layout-footer-column col footer__col"><div class="footer__title">Docs</div><ul class="footer__items clean-list"><li class="footer__item"><a class="footer__link-item" href="/engineer-portal-docs/docs/FusionEngineeringPortal">Fusion Engineering Portal</a></li></ul></div><div class="theme-layout-footer-column col footer__col"><div class="footer__title">Community</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://teams.microsoft.com/l/channel/19%3a4f0b1c5d6e2b4c8f9e7d8c9b0a1b2c3d%40thread.tacv2/Engineering%2520Portal" target="_blank" rel="noopener noreferrer" class="footer__link-item">MS Teams<svg width="13.5" height="13.5" aria-hidden="true" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li><li class="footer__item"><a href="mailto:support@example.com" target="_blank" rel="noopener noreferrer" class="footer__link-item">email<svg width="13.5" height="13.5" aria-hidden="true" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li></ul></div><div class="theme-layout-footer-column col footer__col"><div class="footer__title">More</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://example.com/news" target="_blank" rel="noopener noreferrer" class="footer__link-item">News</a></li><li class="footer__item"><a href="https://github.com/jcmunuera/engineer-portal-docs" target="_blank" rel="noopener noreferrer" class="footer__link-item">GitHub<svg width="13.5" height="13.5" aria-hidden="true" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li></ul></div></div><div class="footer__bottom text--center"><div class="footer__copyright">Fusion Engineering Portal - 2025 Knowledge Area. Built with Docusaurus.</div></div></div></footer></div>
+</body>
+</html>

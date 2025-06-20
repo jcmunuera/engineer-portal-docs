@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en" dir="ltr" class="docs-wrapper plugin-docs plugin-id-default docs-version-current docs-doc-page docs-doc-id-ADRs/adr-002-Distributed-Electronic-Journal" data-has-hydrated="false">
+<head>
+<meta charset="UTF-8">
+<meta name="generator" content="Docusaurus v3.8.1">
+<title data-rh="true">ADR-002: Distributed Electronic Journal with Event Sourcing | Knowledge Base for Engineers</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:url" content="https://jcmunuera.github.io/engineer-portal-docs/docs/ADRs/adr-002-Distributed-Electronic-Journal"><meta data-rh="true" property="og:locale" content="en"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="ADR-002: Distributed Electronic Journal with Event Sourcing | Knowledge Base for Engineers"><meta data-rh="true" name="description" content="Purpose"><meta data-rh="true" property="og:description" content="Purpose"><link data-rh="true" rel="icon" href="/engineer-portal-docs/img/favicon.ico"><link data-rh="true" rel="canonical" href="https://jcmunuera.github.io/engineer-portal-docs/docs/ADRs/adr-002-Distributed-Electronic-Journal"><link data-rh="true" rel="alternate" href="https://jcmunuera.github.io/engineer-portal-docs/docs/ADRs/adr-002-Distributed-Electronic-Journal" hreflang="en"><link data-rh="true" rel="alternate" href="https://jcmunuera.github.io/engineer-portal-docs/docs/ADRs/adr-002-Distributed-Electronic-Journal" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ADR-002: Distributed Electronic Journal","item":"https://jcmunuera.github.io/engineer-portal-docs/docs/ADRs/adr-002-Distributed-Electronic-Journal"}]}</script><link rel="alternate" type="application/rss+xml" href="/engineer-portal-docs/blog/rss.xml" title="Knowledge Base for Engineers RSS Feed">
+<link rel="alternate" type="application/atom+xml" href="/engineer-portal-docs/blog/atom.xml" title="Knowledge Base for Engineers Atom Feed"><link rel="stylesheet" href="/engineer-portal-docs/assets/css/styles.9abf9641.css">
+<script src="/engineer-portal-docs/assets/js/runtime~main.3d89ba3c.js" defer="defer"></script>
+<script src="/engineer-portal-docs/assets/js/main.39f6bf6b.js" defer="defer"></script>
+</head>
+<body class="navigation-with-keyboard">
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;"><defs>
+<symbol id="theme-svg-external-link" viewBox="0 0 24 24"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"/></symbol>
+</defs></svg>
+<script>!function(){var t="light";var e=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return window.localStorage.getItem("theme")}catch(t){}}();document.documentElement.setAttribute("data-theme",e||t),document.documentElement.setAttribute("data-theme-choice",e||t)}(),function(){try{const c=new URLSearchParams(window.location.search).entries();for(var[t,e]of c)if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()</script><div id="__docusaurus"><link rel="preload" as="image" href="/engineer-portal-docs/img/librox32-light.png"><link rel="preload" as="image" href="/engineer-portal-docs/img/librox32-dark.png"><div role="region" aria-label="Skip to main content"><a class="skipToContent_fXgn" href="#__docusaurus_skipToContent_fallback">Skip to main content</a></div><nav aria-label="Main" class="theme-layout-navbar navbar navbar--fixed-top"><div class="navbar__inner"><div class="theme-layout-navbar-left navbar__items"><button aria-label="Toggle navigation bar" aria-expanded="false" class="navbar__toggle clean-btn" type="button"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg></button><a class="navbar__brand" target="_self" href="/engineer-portal-docs/"><div class="navbar__logo"><img src="/engineer-portal-docs/img/librox32-light.png" alt="Knowledge Area Portal Logo" class="themedComponent_mlkZ themedComponent--light_NVdE"><img src="/engineer-portal-docs/img/librox32-dark.png" alt="Knowledge Area Portal Logo" class="themedComponent_mlkZ themedComponent--dark_xIcU"></div></a><a aria-current="page" class="navbar__item navbar__link navbar__link--active" href="/engineer-portal-docs/docs/ADRs/adr-000-First-Item">Knowledge Area</a></div><div class="theme-layout-navbar-right navbar__items navbar__items--right"><div class="toggle_vylO colorModeToggle_DEke"><button class="clean-btn toggleButton_gllP toggleButtonDisabled_aARS" type="button" disabled="" title="system mode" aria-label="Switch between dark and light mode (currently system mode)"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP lightToggleIcon_pyhR"><path fill="currentColor" d="M12,9c1.65,0,3,1.35,3,3s-1.35,3-3,3s-3-1.35-3-3S10.35,9,12,9 M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5 S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1 s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0 c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95 c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41 L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41 s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06 c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP darkToggleIcon_wfgR"><path fill="currentColor" d="M9.37,5.51C9.19,6.15,9.1,6.82,9.1,7.5c0,4.08,3.32,7.4,7.4,7.4c0.68,0,1.35-0.09,1.99-0.27C17.45,17.19,14.93,19,12,19 c-3.86,0-7-3.14-7-7C5,9.07,6.81,6.55,9.37,5.51z M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36 c-0.98,1.37-2.58,2.26-4.4,2.26c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP systemToggleIcon_QzmC"><path fill="currentColor" d="m12 21c4.971 0 9-4.029 9-9s-4.029-9-9-9-9 4.029-9 9 4.029 9 9 9zm4.95-13.95c1.313 1.313 2.05 3.093 2.05 4.95s-0.738 3.637-2.05 4.95c-1.313 1.313-3.093 2.05-4.95 2.05v-14c1.857 0 3.637 0.737 4.95 2.05z"></path></svg></button></div><div class="navbarSearchContainer_Bca1"></div></div></div><div role="presentation" class="navbar-sidebar__backdrop"></div></nav><div id="__docusaurus_skipToContent_fallback" class="theme-layout-main main-wrapper mainWrapper_z2l0"><div class="docsWrapper_hBAB"><button aria-label="Scroll back to top" class="clean-btn theme-back-to-top-button backToTopButton_sjWU" type="button"></button><div class="docRoot_UBD9"><aside class="theme-doc-sidebar-container docSidebarContainer_YfHR"><div class="sidebarViewport_aRkj"><div class="sidebar_njMd"><nav aria-label="Docs sidebar" class="menu thin-scrollbar menu_SIkG"><ul class="theme-doc-sidebar-menu menu__list"><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret menu__link--active" role="button" aria-expanded="true" href="/engineer-portal-docs/docs/ADRs/adr-000-First-Item">Architecture Decision Records</a></div><ul class="menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/engineer-portal-docs/docs/ADRs/adr-000-First-Item">ADR-000: First Item</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/engineer-portal-docs/docs/ADRs/adr-001-Transactional-APIs">ADR-001: Transactional APIs</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link menu__link--active" aria-current="page" tabindex="0" href="/engineer-portal-docs/docs/ADRs/adr-002-Distributed-Electronic-Journal">ADR-002: Distributed Electronic Journal</a></li></ul></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/engineer-portal-docs/docs/ERIs/eri-001-Transactional-Management">Executable Reference Impl.</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/engineer-portal-docs/docs/Patterns/ptr-001-Saga">Design Patterns</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/engineer-portal-docs/docs/Frameworks/frm-001-Fusion-MSA-Java">Frameworks</a></div></li></ul></nav></div></div></aside><main class="docMainContainer_TBSr"><div class="container padding-top--md padding-bottom--lg"><div class="row"><div class="col docItemCol_VOVn"><div class="docItemContainer_Djhp"><article><nav class="theme-doc-breadcrumbs breadcrumbsContainer_Z_bl" aria-label="Breadcrumbs"><ul class="breadcrumbs"><li class="breadcrumbs__item"><a aria-label="Home page" class="breadcrumbs__link" href="/engineer-portal-docs/"><svg viewBox="0 0 24 24" class="breadcrumbHomeIcon_YNFT"><path d="M10 19v-5h4v5c0 .55.45 1 1 1h3c.55 0 1-.45 1-1v-7h1.7c.46 0 .68-.57.33-.87L12.67 3.6c-.38-.34-.96-.34-1.34 0l-8.36 7.53c-.34.3-.13.87.33.87H5v7c0 .55.45 1 1 1h3c.55 0 1-.45 1-1z" fill="currentColor"></path></svg></a></li><li class="breadcrumbs__item"><span class="breadcrumbs__link">Architecture Decision Records</span></li><li class="breadcrumbs__item breadcrumbs__item--active"><span class="breadcrumbs__link">ADR-002: Distributed Electronic Journal</span></li></ul></nav><div class="tocCollapsible_ETCw theme-doc-toc-mobile tocMobile_ITEo"><button type="button" class="clean-btn tocCollapsibleButton_TO0P">On this page</button></div><div class="theme-doc-markdown markdown"><header><h1>ADR-002: Distributed Electronic Journal with Event Sourcing</h1></header><h2 class="anchor anchorWithStickyNavbar_LWe7" id="purpose">Purpose<a href="#purpose" class="hash-link" aria-label="Direct link to Purpose" title="Direct link to Purpose">​</a></h2>
+<p>The purpose of this ADR is to document the architectural decision to implement a Distributed Electronic Journal using an Event Sourcing pattern to capture and audit customer and employee interactions across assisted (e.g., financial terminals, intranet portals, CRM) and unassisted (e.g., mobile and web banking) channels. This decision aims to:</p>
+<ul>
+<li>Provide a complete, immutable, and auditable record of all customer interactions to meet legal and regulatory requirements.</li>
+<li>Transition the electronic journal functionality from the legacy Mainframe to a modern, distributed microservices architecture.</li>
+<li>Enable flexibility for future use cases, such as analytics or fraud detection, by leveraging event-driven data.</li>
+<li>Ensure high performance and scalability to handle high event volumes while minimizing impact on API response times.</li>
+<li>Support semi-transactional requirements for critical operations, ensuring data integrity without compromising performance.</li>
+</ul>
+<p>This ADR provides the rationale, scope, and guidance for implementing the Distributed Electronic Journal, ensuring alignment with our API-first microservices architecture and facilitating adoption by development teams.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="context">Context<a href="#context" class="hash-link" aria-label="Direct link to Context" title="Direct link to Context">​</a></h2>
+<p>Our FUSION microservices-based architecture is designed to support a multi-layer API structure, comprising:</p>
+<ul>
+<li><strong>BFF/Experience API</strong>: Tailors responses for specific user interfaces, calling Composable or Domain APIs without implementing business logic.</li>
+<li><strong>Composable API</strong>: Orchestrates calls to multiple Domain APIs to support complex workflows or reusable business processes.</li>
+<li><strong>Domain API</strong>: Encapsulates atomic business capabilities within a specific domain, adhering to Domain-Driven Design (DDD) boundaries.</li>
+<li><strong>System API</strong>: Standardizes interactions with Systems of Record (SoR) and third-party systems, normalizing their contracts for Domain APIs.</li>
+</ul>
+<p>Currently, the electronic journal, which records all customer interactions for legal auditing purposes, resides in our Mainframe z/OS environment, part of our legacy core banking system. This approach has several limitations:</p>
+<ul>
+<li>Limited data exploitation due to the Mainframe&#x27;s constraints.</li>
+<li>Historical data stored on tapes, making access cumbersome.</li>
+<li>Incomplete capture of interactions as new functionalities are extracted to distributed systems.</li>
+<li>High complexity and cost of maintaining and extending Mainframe-based auditing.</li>
+</ul>
+<p>To address these challenges, we aim to migrate the electronic journal to our distributed architecture, leveraging our API-led connectivity model. The solution must handle high event volumes, support semi-transactional requirements for critical operations, and ensure eventual consistency within minutes, aligning with regulatory needs.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="decision">Decision<a href="#decision" class="hash-link" aria-label="Direct link to Decision" title="Direct link to Decision">​</a></h2>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="implementing-a-distributed-electronic-journal-with-event-sourcing">Implementing a Distributed Electronic Journal with Event Sourcing<a href="#implementing-a-distributed-electronic-journal-with-event-sourcing" class="hash-link" aria-label="Direct link to Implementing a Distributed Electronic Journal with Event Sourcing" title="Direct link to Implementing a Distributed Electronic Journal with Event Sourcing">​</a></h3>
+<p>We have decided to implement the Distributed Electronic Journal using an <strong>Event Sourcing</strong> pattern, supported by <strong>Apache Kafka</strong> for event streaming, <strong>Axon Framework</strong> for Event Sourcing and CQRS, and an open-source database (e.g., MongoDB or Cassandra) for event storage and projections. The key components of this decision are:</p>
+<ul>
+<li>
+<p><strong>Event Sourcing for Auditability</strong>:</p>
+<ul>
+<li>All customer and employee interactions (e.g., logins, transactions, queries) will be captured as immutable events stored in an event store.</li>
+<li>The electronic journal will be reconstructed by replaying these events or querying materialized projections, ensuring a complete and auditable record.</li>
+<li>Events will serve as the single source of truth, supporting legal auditing and enabling future use cases like analytics or fraud detection.</li>
+</ul>
+</li>
+<li>
+<p><strong>Kafka as the Event Streaming Layer</strong>:</p>
+<ul>
+<li>Apache Kafka will be used as the event streaming platform to capture and distribute events generated by APIs (Experience, Composable, Domain).</li>
+<li>Kafka ensures high throughput and scalability to handle large event volumes, with low-latency event persistence to minimize impact on API response times.</li>
+<li>Events will be published to Kafka topics with durability guarantees (<code>acks=all</code>, multiple replicas) to meet semi-transactional requirements.</li>
+</ul>
+</li>
+<li>
+<p><strong>Axon Framework for Event Sourcing and CQRS</strong>:</p>
+<ul>
+<li>Axon Framework (OSS) will be used to implement Event Sourcing and CQRS, modeling interactions as aggregates and handling event processing.</li>
+<li>Sagas will be used to manage compensating transactions for critical operations, ensuring data integrity in failure scenarios.</li>
+<li>Axon integrates seamlessly with our Spring Boot-based framework, facilitating adoption by development teams.</li>
+</ul>
+</li>
+<li>
+<p><strong>Open-Source Database for Event Storage and Projections</strong>:</p>
+<ul>
+<li>A NoSQL database (e.g., MongoDB or Cassandra) will serve as the event store, storing raw events for reconstruction and auditing.</li>
+<li>Materialized projections will be stored in a separate database (e.g., MongoDB for flexibility or PostgreSQL for structured queries) to support efficient querying of the electronic journal.</li>
+<li>Snapshots will be implemented to optimize state reconstruction for aggregates with high event volumes.</li>
+</ul>
+</li>
+<li>
+<p><strong>Semi-Transactional Requirements</strong>:</p>
+<ul>
+<li>For critical operations, an interaction will be considered valid once the corresponding event is persisted in Kafka, ensuring low-latency API responses.</li>
+<li>If subsequent processing fails, Sagas will trigger compensating actions to rollback or mitigate the operation, maintaining data integrity.</li>
+<li>Non-critical operations will rely on eventual consistency, with a tolerance of minutes for projection updates.</li>
+</ul>
+</li>
+<li>
+<p><strong>Transition from Mainframe</strong>:</p>
+<ul>
+<li>During the migration, the Mainframe-based journal will coexist with the distributed system. Events from Mainframe interactions will be generated via System APIs or adapters and published to Kafka.</li>
+<li>Deduplication using correlation IDs will prevent redundant events during the transition period.</li>
+<li>Once all critical capabilities are migrated to the distributed architecture, the Mainframe journal will be phased out.</li>
+</ul>
+</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="technical-details">Technical Details<a href="#technical-details" class="hash-link" aria-label="Direct link to Technical Details" title="Direct link to Technical Details">​</a></h3>
+<ul>
+<li>
+<p><strong>Event Generation</strong>:</p>
+<ul>
+<li>APIs (Experience, Composable, Domain) will publish events to Kafka topics for each relevant interaction (e.g., <code>CustomerLoggedIn</code>, <code>TransactionCompleted</code>).</li>
+<li>Events will follow a standardized format (e.g., CloudEvents) and include a correlation ID for deduplication and traceability.</li>
+<li>Kafka producers will be configured with <code>acks=all</code> and multiple replicas for durability.</li>
+</ul>
+</li>
+<li>
+<p><strong>Kafka Configuration</strong>:</p>
+<ul>
+<li>Use partitioned topics to scale event processing, with partitions based on customer ID or interaction type.</li>
+<li>Implement Kafka Schema Registry to manage event schemas and ensure compatibility.</li>
+<li>Set retention policies (e.g., 7 years) to meet legal auditing requirements.</li>
+</ul>
+</li>
+<li>
+<p><strong>Axon Implementation</strong>:</p>
+<ul>
+<li>Model aggregates (e.g., per customer or session) to manage interaction state.</li>
+<li>Use Axon’s event handlers to build materialized projections for the electronic journal.</li>
+<li>Implement Sagas for compensating transactions in critical operations.</li>
+<li>Integrate Axon with Spring Boot and Kafka for seamless event publishing and consumption.</li>
+</ul>
+</li>
+<li>
+<p><strong>Database Selection</strong>:</p>
+<ul>
+<li><strong>MongoDB</strong> or <strong>Cassandra</strong> for the event store, with MongoDB preferred for its flexibility and Axon integration, and Cassandra for high write throughput.</li>
+<li><strong>PostgreSQL</strong> or <strong>MongoDB</strong> for materialized projections, depending on query requirements (structured vs. flexible).</li>
+<li>Implement snapshots in Axon to optimize performance for aggregates with many events.</li>
+</ul>
+</li>
+<li>
+<p><strong>Observability and Monitoring</strong>:</p>
+<ul>
+<li>Instrument APIs, Kafka, and Axon with distributed tracing (e.g., OpenTelemetry) and metrics (e.g., Prometheus).</li>
+<li>Log event processing failures and compensations for auditability.</li>
+<li>Set up alerts for critical failures in event persistence or processing.</li>
+</ul>
+</li>
+<li>
+<p><strong>Governance</strong>:</p>
+<ul>
+<li>Maintain an event catalog documenting event types, schemas, and their relation to business capabilities.</li>
+<li>Use Kafka Schema Registry for schema evolution and compatibility.</li>
+<li>Provide reference implementations and accelerators in Spring Boot for event generation and consumption.</li>
+</ul>
+</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="diagram">Diagram<a href="#diagram" class="hash-link" aria-label="Direct link to Diagram" title="Direct link to Diagram">​</a></h3>
+<!-- -->
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="consequences">Consequences<a href="#consequences" class="hash-link" aria-label="Direct link to Consequences" title="Direct link to Consequences">​</a></h2>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="positive">Positive<a href="#positive" class="hash-link" aria-label="Direct link to Positive" title="Direct link to Positive">​</a></h3>
+<ul>
+<li><strong>Complete Auditability</strong>: Event Sourcing ensures an immutable, auditable record of all interactions, meeting legal and regulatory requirements.</li>
+<li><strong>Scalability</strong>: Kafka’s distributed architecture handles high event volumes, supporting millions of interactions daily.</li>
+<li><strong>Performance Optimization</strong>: Asynchronous event persistence in Kafka minimizes API response times, ensuring a seamless user experience.</li>
+<li><strong>Flexibility</strong>: The event-driven approach enables future use cases (e.g., analytics, fraud detection) without modifying the core system.</li>
+<li><strong>Alignment with Architecture</strong>: Integrates seamlessly with our Spring Boot-based framework and API-led connectivity model.</li>
+<li><strong>Incremental Migration</strong>: Supports coexistence with the Mainframe journal, enabling a gradual transition to the distributed system.</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="negative">Negative<a href="#negative" class="hash-link" aria-label="Direct link to Negative" title="Direct link to Negative">​</a></h3>
+<ul>
+<li><strong>Increased Complexity</strong>: Event Sourcing and Kafka introduce operational and development complexity, requiring team training and robust governance.</li>
+<li><strong>Eventual Consistency</strong>: While acceptable, the minutes-long delay in projection updates may require careful management for certain use cases.</li>
+<li><strong>Infrastructure Overhead</strong>: Managing Kafka, Axon, and databases requires significant infrastructure and operational expertise.</li>
+<li><strong>Deduplication Challenges</strong>: During the Mainframe transition, deduplication of events requires careful design to avoid redundancy.</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="mitigations">Mitigations<a href="#mitigations" class="hash-link" aria-label="Direct link to Mitigations" title="Direct link to Mitigations">​</a></h3>
+<ul>
+<li><strong>Team Enablement</strong>: Provide accelerators, reference implementations, and training on Event Sourcing and Axon to reduce the learning curve.</li>
+<li><strong>Robust Governance</strong>: Maintain an event catalog and use Schema Registry to manage event schemas and evolution.</li>
+<li><strong>Monitoring and Alerts</strong>: Implement comprehensive observability with OpenTelemetry and Prometheus to detect and resolve issues quickly.</li>
+<li><strong>Deduplication Strategy</strong>: Use correlation IDs and deduplication logic in Axon to handle redundant events during the transition.</li>
+<li><strong>Performance Optimization</strong>: Use snapshots and efficient projection designs to reduce state reconstruction overhead.</li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="alternatives-considered">Alternatives Considered<a href="#alternatives-considered" class="hash-link" aria-label="Direct link to Alternatives Considered" title="Direct link to Alternatives Considered">​</a></h2>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="eventstoredb-oss">EventStoreDB (OSS)<a href="#eventstoredb-oss" class="hash-link" aria-label="Direct link to EventStoreDB (OSS)" title="Direct link to EventStoreDB (OSS)">​</a></h3>
+<ul>
+<li><strong>Description</strong>: Use the open-source version of EventStoreDB as the event store, leveraging its native support for Event Sourcing.</li>
+<li><strong>Rationale for Discarding</strong>:<!-- -->
+<ul>
+<li>The OSS version lacks clustering and high availability, making it unsuitable for high event volumes in a financial institution.</li>
+<li>Slower, more synchronous writes compared to Kafka increase API response times, conflicting with performance requirements.</li>
+<li>Limited scalability compared to Kafka, which is better suited for distributed, high-throughput environments.</li>
+</ul>
+</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="direct-database-storage-no-event-sourcing">Direct Database Storage (No Event Sourcing)<a href="#direct-database-storage-no-event-sourcing" class="hash-link" aria-label="Direct link to Direct Database Storage (No Event Sourcing)" title="Direct link to Direct Database Storage (No Event Sourcing)">​</a></h3>
+<ul>
+<li><strong>Description</strong>: Store interaction data directly in a relational or NoSQL database without using Event Sourcing.</li>
+<li><strong>Rationale for Discarding</strong>:<!-- -->
+<ul>
+<li>Lacks the immutability and auditability provided by Event Sourcing, critical for legal compliance.</li>
+<li>Limits flexibility for future use cases like analytics or historical state reconstruction.</li>
+<li>Increases coupling between APIs and the database, reducing scalability and maintainability.</li>
+</ul>
+</li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="references">References<a href="#references" class="hash-link" aria-label="Direct link to References" title="Direct link to References">​</a></h2>
+<ul>
+<li><a href="https://martinfowler.com/eaaDev/EventSourcing.html" target="_blank" rel="noopener noreferrer">Event Sourcing Pattern</a></li>
+<li><a href="https://kafka.apache.org/documentation/" target="_blank" rel="noopener noreferrer">Apache Kafka Documentation</a></li>
+<li><a href="https://docs.axoniq.io/reference-guide/" target="_blank" rel="noopener noreferrer">Axon Framework Documentation</a></li>
+<li><a href="https://cloudevents.io/" target="_blank" rel="noopener noreferrer">CloudEvents Specification</a></li>
+<li><a href="/engineer-portal-docs/docs/ADRs/ERIs/eri-002-Distributed-Electronic-Journal">ERI - Event Sourcing Implementation</a></li>
+</ul>
+<hr></div><footer class="theme-doc-footer docusaurus-mt-lg"><div class="row margin-top--sm theme-doc-footer-tags-row"><div class="col"><b>Tags:</b><ul class="tags_jXut padding--none margin-left--sm"><li class="tag_QGVx"><a rel="tag" class="tag_zVej tagRegular_sFm0" href="/engineer-portal-docs/docs/tags/fusion">Fusion</a></li><li class="tag_QGVx"><a rel="tag" class="tag_zVej tagRegular_sFm0" href="/engineer-portal-docs/docs/tags/event-sourcing">Event Sourcing</a></li><li class="tag_QGVx"><a rel="tag" class="tag_zVej tagRegular_sFm0" href="/engineer-portal-docs/docs/tags/electronic-journal">Electronic Journal</a></li><li class="tag_QGVx"><a rel="tag" class="tag_zVej tagRegular_sFm0" href="/engineer-portal-docs/docs/tags/microservices">Microservices</a></li><li class="tag_QGVx"><a rel="tag" class="tag_zVej tagRegular_sFm0" href="/engineer-portal-docs/docs/tags/kafka">Kafka</a></li><li class="tag_QGVx"><a rel="tag" class="tag_zVej tagRegular_sFm0" href="/engineer-portal-docs/docs/tags/axon">Axon</a></li></ul></div></div><div class="row margin-top--sm theme-doc-footer-edit-meta-row"><div class="col"><a href="https://github.com/jcmunuera/engineer-portal-docs/edit/main/../docs/ADRs/adr-002-Distributed-Electronic-Journal.md" target="_blank" rel="noopener noreferrer" class="theme-edit-this-page"><svg fill="currentColor" height="20" width="20" viewBox="0 0 40 40" class="iconEdit_Z9Sw" aria-hidden="true"><g><path d="m34.5 11.7l-3 3.1-6.3-6.3 3.1-3q0.5-0.5 1.2-0.5t1.1 0.5l3.9 3.9q0.5 0.4 0.5 1.1t-0.5 1.2z m-29.5 17.1l18.4-18.5 6.3 6.3-18.4 18.4h-6.3v-6.2z"></path></g></svg>Edit this page</a></div><div class="col lastUpdated_JAkA"></div></div></footer></article><nav class="docusaurus-mt-lg pagination-nav" aria-label="Docs pages"><a class="pagination-nav__link pagination-nav__link--prev" href="/engineer-portal-docs/docs/ADRs/adr-001-Transactional-APIs"><div class="pagination-nav__sublabel">Previous</div><div class="pagination-nav__label">ADR-001: Transactional APIs</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/engineer-portal-docs/docs/ERIs/eri-001-Transactional-Management"><div class="pagination-nav__sublabel">Next</div><div class="pagination-nav__label">ERI-001: Transactional Mngmt</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#purpose" class="table-of-contents__link toc-highlight">Purpose</a></li><li><a href="#context" class="table-of-contents__link toc-highlight">Context</a></li><li><a href="#decision" class="table-of-contents__link toc-highlight">Decision</a><ul><li><a href="#implementing-a-distributed-electronic-journal-with-event-sourcing" class="table-of-contents__link toc-highlight">Implementing a Distributed Electronic Journal with Event Sourcing</a></li><li><a href="#technical-details" class="table-of-contents__link toc-highlight">Technical Details</a></li><li><a href="#diagram" class="table-of-contents__link toc-highlight">Diagram</a></li></ul></li><li><a href="#consequences" class="table-of-contents__link toc-highlight">Consequences</a><ul><li><a href="#positive" class="table-of-contents__link toc-highlight">Positive</a></li><li><a href="#negative" class="table-of-contents__link toc-highlight">Negative</a></li><li><a href="#mitigations" class="table-of-contents__link toc-highlight">Mitigations</a></li></ul></li><li><a href="#alternatives-considered" class="table-of-contents__link toc-highlight">Alternatives Considered</a><ul><li><a href="#eventstoredb-oss" class="table-of-contents__link toc-highlight">EventStoreDB (OSS)</a></li><li><a href="#direct-database-storage-no-event-sourcing" class="table-of-contents__link toc-highlight">Direct Database Storage (No Event Sourcing)</a></li></ul></li><li><a href="#references" class="table-of-contents__link toc-highlight">References</a></li></ul></div></div></div></div></main></div></div></div><footer class="theme-layout-footer footer footer--dark"><div class="container container-fluid"><div class="row footer__links"><div class="theme-layout-footer-column col footer__col"><div class="footer__title">Docs</div><ul class="footer__items clean-list"><li class="footer__item"><a class="footer__link-item" href="/engineer-portal-docs/docs/FusionEngineeringPortal">Fusion Engineering Portal</a></li></ul></div><div class="theme-layout-footer-column col footer__col"><div class="footer__title">Community</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://teams.microsoft.com/l/channel/19%3a4f0b1c5d6e2b4c8f9e7d8c9b0a1b2c3d%40thread.tacv2/Engineering%2520Portal" target="_blank" rel="noopener noreferrer" class="footer__link-item">MS Teams<svg width="13.5" height="13.5" aria-hidden="true" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li><li class="footer__item"><a href="mailto:support@example.com" target="_blank" rel="noopener noreferrer" class="footer__link-item">email<svg width="13.5" height="13.5" aria-hidden="true" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li></ul></div><div class="theme-layout-footer-column col footer__col"><div class="footer__title">More</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://example.com/news" target="_blank" rel="noopener noreferrer" class="footer__link-item">News</a></li><li class="footer__item"><a href="https://github.com/jcmunuera/engineer-portal-docs" target="_blank" rel="noopener noreferrer" class="footer__link-item">GitHub<svg width="13.5" height="13.5" aria-hidden="true" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li></ul></div></div><div class="footer__bottom text--center"><div class="footer__copyright">Fusion Engineering Portal - 2025 Knowledge Area. Built with Docusaurus.</div></div></div></footer></div>
+</body>
+</html>
